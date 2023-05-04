@@ -1,0 +1,57 @@
+networks:
+  jucr:
+    external: true
+  
+services:
+  station: 
+    build: 
+      context: .
+      dockerfile: ./apps/station/Dockerfile
+      target: development
+    command: npm run start station
+    env_file:
+      - ./apps/station/.env
+    depends_on:
+      - mongo
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    networks:
+      - jucr
+
+  data_provider: 
+    build: 
+      context: .
+      dockerfile: ./apps/data-provider/Dockerfile
+      target: development
+    command: npm run start data-provider
+    env_file:
+      - ./apps/data-provider/.env
+    depends_on:
+      - mongo
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 4000:4000
+    networks:
+      - jucr
+
+  mongo:
+    image: mongo:5.0
+    # environment:
+      # - MONGODB_ADVERTISED_HOSTNAME=mongo
+      # - MONGO_INITDB_ROOT_USERNAME=root
+      # - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - 'mongo_data:/data/db'
+    ports:
+      - '27017:27017'
+    networks:
+      - jucr
+
+volumes:
+  mongo_data:
+    driver: local
