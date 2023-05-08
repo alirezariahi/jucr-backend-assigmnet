@@ -40,11 +40,7 @@ services:
       - jucr
 
   mongo:
-    image: mongo:5.0
-    # environment:
-      # - MONGODB_ADVERTISED_HOSTNAME=mongo
-      # - MONGO_INITDB_ROOT_USERNAME=root
-      # - MONGO_INITDB_ROOT_PASSWORD=password
+    image: mongo:6.0
     volumes:
       - 'mongo_data:/data/db'
     ports:

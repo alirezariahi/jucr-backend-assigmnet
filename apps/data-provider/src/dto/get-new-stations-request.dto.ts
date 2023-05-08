@@ -1,16 +1,10 @@
-import { IsNotEmpty, IsNumber, IsDateString, IsString } from 'class-validator';
+import { IsDateString, IsString, IsOptional } from 'class-validator';
 export class GetNewStationsDataRequest {
-  @IsNumber()
-  @IsNotEmpty()
-  skip: number;
-
-  @IsNumber()
-  @IsNotEmpty()
-  limit: number;
-
   @IsDateString()
+  @IsOptional()
   lastUpdate: string;
 
   @IsString()
+  @IsOptional()
   lastStation: string[];
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import { DataProviderService } from './data-provider.service';
 import { CreateStationDataRequest } from './dto/create-station-request.dto';
 import { GetNewStationsDataRequest } from './dto/get-new-stations-request.dto';
@@ -21,16 +21,28 @@ export class DataProviderController {
     try {
       return await this.dataProviderService.createStation(req);
     } catch (error: any) {
-      error(error);
+      throw error;
     }
   }
 
-  @Post('/new-stations')
-  async getNewStations(@Body() req: GetNewStationsDataRequest) {
+  @Post('/new-stations/:skip/:limit/:apiKey')
+  async getNewStations(
+    @Param('apiKey') apiKey: string,
+    @Param('skip') skip: string,
+    @Param('limit') limit: string,
+    @Body() req: GetNewStationsDataRequest,
+  ) {
     try {
-      return await this.dataProviderService.getNewStations(req);
+      if (!apiKey || apiKey !== 'ff82541f-c8d1-4507-be67-bd07e3259c4e')
+        throw new Error('Invalid API Key');
+
+      return await this.dataProviderService.getNewStations(
+        req,
+        parseInt(skip),
+        parseInt(limit),
+      );
     } catch (error: any) {
-      error(error);
+      throw error;
     }
   }
 }

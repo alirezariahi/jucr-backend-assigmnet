@@ -23,7 +23,10 @@ import { SeedsModule } from './seed/seeds.module';
     }),
     DatabaseModule,
     MongooseModule.forFeature([
-      { name: StationData.name, schema: StationDataSchema },
+      {
+        name: StationData.name,
+        schema: StationDataSchema,
+      },
     ]),
     SeedsModule,
   ],

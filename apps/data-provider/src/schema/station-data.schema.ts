@@ -1,12 +1,8 @@
 import { AbstractDocument } from '@app/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
 
 @Schema({ versionKey: false })
 export class StationData extends AbstractDocument {
-  @Prop()
-  _id: Types.ObjectId;
-
   @Prop()
   operatorInfo: string;
 
@@ -20,4 +16,10 @@ export class StationData extends AbstractDocument {
   connections: string[];
 }
 
-export const StationDataSchema = SchemaFactory.createForClass(StationData);
+const StationDataSchema = SchemaFactory.createForClass(StationData);
+
+// StationDataSchema.pre('save', function () {
+//   this.createdAt = new Date(Date.now());
+// });
+
+export { StationDataSchema };
