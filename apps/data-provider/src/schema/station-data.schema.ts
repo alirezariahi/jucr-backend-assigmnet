@@ -18,8 +18,8 @@ export class StationData extends AbstractDocument {
 
 const StationDataSchema = SchemaFactory.createForClass(StationData);
 
-// StationDataSchema.pre('save', function () {
-//   this.createdAt = new Date(Date.now());
-// });
+StationDataSchema.pre('save', function () {
+  this.createdAt = new Date(Date.now());
+});
 
 export { StationDataSchema };

@@ -3,7 +3,7 @@ import { SchemaTypes } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class AbstractDocument {
-  @Prop({ type: SchemaTypes.ObjectId })
+  @Prop({ type: SchemaTypes.String })
   _id: string;
 
   @Prop({ type: Date })

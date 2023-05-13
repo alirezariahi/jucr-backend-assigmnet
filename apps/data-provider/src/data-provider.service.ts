@@ -56,7 +56,7 @@ export class DataProviderService {
       let query: any;
       if (request.lastUpdate) {
         query = {
-          $gte: { createdAt: new Date(request.lastUpdate) },
+          createdAt: { $gte: new Date(request.lastUpdate) },
         };
       } else if (request.lastStation) {
         const lastStation: StationData = await this.StationDataModel.findOne({
@@ -64,16 +64,16 @@ export class DataProviderService {
         });
 
         query = {
-          $gte: { createdAt: lastStation.createdAt },
+          createdAt: { $gte: lastStation.createdAt },
         };
       } else {
         query = {};
       }
 
       const data: StationData[] = await this.StationDataModel.find(query)
+        .sort({ createdAt: -1 })
         .skip(skip)
-        .limit(limit)
-        .sort({ createdAt: -1 });
+        .limit(limit);
 
       return data;
     } catch (error) {
