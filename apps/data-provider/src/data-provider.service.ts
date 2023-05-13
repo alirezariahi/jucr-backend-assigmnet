@@ -75,7 +75,9 @@ export class DataProviderService {
         .skip(skip)
         .limit(limit);
 
-      return data;
+      const total = await this.StationDataModel.countDocuments(query);
+
+      return { data, total };
     } catch (error) {
       this.logger.error(error);
       throw error;
