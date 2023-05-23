@@ -6,12 +6,16 @@ import { DatabaseModule } from '@app/common';
 import { StationRepository } from './station.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Station, StationSchema } from 'apps/station/src/schema/station.schema';
+import { GraphQLModule } from '@nestjs/graphql';
 import mongoConfig from '../config/mongo.config';
 import evvConfig from '../config/env.config';
 
 @Module({
   imports: [
     evvConfig,
+    GraphQLModule.forRoot({
+      autoSchemaFile: true,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [mongoConfig],

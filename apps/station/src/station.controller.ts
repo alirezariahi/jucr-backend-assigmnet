@@ -6,7 +6,7 @@ export class StationController {
   constructor(private readonly stationService: StationService) {}
 
   @Get()
-  getHello(): string {
-    return this.stationService.getHello();
+  status(): string {
+    return this.stationService.status();
   }
 }
