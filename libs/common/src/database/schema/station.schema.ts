@@ -1,7 +1,6 @@
 import { AbstractDocument } from '@app/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Field, ObjectType } from '@nestjs/graphql';
-import mongoose from 'mongoose';
 
 @ObjectType()
 export class OperatorInfo {
