@@ -11,12 +11,14 @@ import {
 import { GraphQLModule } from '@nestjs/graphql';
 import mongoConfig from '../config/mongo.config';
 import evvConfig from '../config/env.config';
+import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 
 @Module({
   imports: [
     evvConfig,
-    GraphQLModule.forRoot({
+    GraphQLModule.forRoot<ApolloDriverConfig>({
       autoSchemaFile: true,
+      driver: ApolloDriver,
     }),
     ConfigModule.forRoot({
       isGlobal: true,

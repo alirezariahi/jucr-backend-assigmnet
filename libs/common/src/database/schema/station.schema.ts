@@ -1,8 +1,10 @@
 import { AbstractDocument } from '@app/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Field, ObjectType } from '@nestjs/graphql';
+import mongoose from 'mongoose';
 
-export type OperatorInfo = {
+@ObjectType()
+export class OperatorInfo {
   WebsiteURL: string;
   Comments?: any[];
   PhonePrimaryContact?: string;
@@ -13,18 +15,22 @@ export type OperatorInfo = {
   ContactEmail?: string;
   FaultReportEmail?: string;
   IsRestrictedEdit: boolean;
+  @Field()
   ID: number;
   description?: string;
-};
-
-export type StatusType = {
+}
+@ObjectType()
+export class StatusType {
   IsOperational: boolean;
   IsUserSelectable: boolean;
+  @Field()
   ID: number;
   description?: string;
-};
+}
 
-export type AddressInfo = {
+@ObjectType()
+export class AddressInfo {
+  @Field()
   ID: number;
   description: string;
   AddressLine1: string;
@@ -48,9 +54,11 @@ export type AddressInfo = {
   RelatedURL: string;
   Distance: number;
   DistanceUnit: number;
-};
+}
 
-export type Connection = {
+@ObjectType()
+export class Connection {
+  @Field()
   ID: number;
   ConnectionTypeID: number;
   ConnectionType: {
@@ -85,7 +93,7 @@ export type Connection = {
   };
   Quantity: number;
   UserComments?: any[];
-};
+}
 
 @ObjectType()
 @Schema({ versionKey: false })
@@ -94,20 +102,20 @@ export class Station extends AbstractDocument {
   @Prop()
   _id: string;
 
-  @Field()
-  @Prop()
+  @Field(() => OperatorInfo)
+  @Prop({ type: OperatorInfo })
   operatorInfo: OperatorInfo;
 
-  @Field()
-  @Prop()
+  @Field(() => StatusType)
+  @Prop({ type: StatusType })
   statusType: StatusType;
 
-  @Field()
-  @Prop()
+  @Field(() => AddressInfo)
+  @Prop({ type: AddressInfo })
   addressInfo: AddressInfo;
 
-  @Field()
-  @Prop()
+  @Field(() => [Connection])
+  @Prop({ type: [Connection] })
   connections: Connection[];
 
   @Prop()
