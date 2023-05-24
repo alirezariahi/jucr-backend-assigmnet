@@ -1,18 +1,16 @@
 import { Module } from '@nestjs/common';
 import { DataProviderController } from './data-provider.controller';
 import { DataProviderService } from './data-provider.service';
-import { DataProviderRepository } from './data-provider.repository';
 import { DatabaseModule } from '@app/common';
 import {
-  StationData,
-  StationDataSchema,
-} from 'apps/data-provider/src/schema/station-data.schema';
+  Station,
+  StationSchema,
+} from '@app/common/database/schema/station.schema';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import mongoConfig from '../config/mongo.config';
 import evvConfig from '../config/env.config';
 import appConfig from '../config/app.config';
-import { SeedsModule } from './seed/seeds.module';
 
 @Module({
   imports: [
@@ -24,13 +22,12 @@ import { SeedsModule } from './seed/seeds.module';
     DatabaseModule,
     MongooseModule.forFeature([
       {
-        name: StationData.name,
-        schema: StationDataSchema,
+        name: Station.name,
+        schema: StationSchema,
       },
     ]),
-    SeedsModule,
   ],
   controllers: [DataProviderController],
-  providers: [DataProviderService, DataProviderRepository],
+  providers: [DataProviderService],
 })
 export class DataProviderModule {}

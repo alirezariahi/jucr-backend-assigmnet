@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CreateStationDataRequest } from './dto/create-station-request.dto';
 import { GetNewStationsDataRequest } from './dto/get-new-stations-request.dto';
-import { StationData } from './schema/station-data.schema';
+import { Station } from '@app/common/database/schema/station.schema';
 import { Connection, Model } from 'mongoose';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { v4 as uuid } from 'uuid';
@@ -11,12 +11,12 @@ import { v4 as uuid } from 'uuid';
 export class DataProviderService {
   private readonly systemRunningMessage: string;
   protected readonly logger: Logger;
-  protected readonly StationDataModel: Model<StationData>;
+  protected readonly StationDataModel: Model<Station>;
   protected readonly connection: Connection;
 
   constructor(
     private readonly configService: ConfigService,
-    @InjectModel(StationData.name) stationDataModel: Model<StationData>,
+    @InjectModel(Station.name) stationDataModel: Model<Station>,
     @InjectConnection() connection: Connection,
   ) {
     this.StationDataModel = stationDataModel;
@@ -59,7 +59,7 @@ export class DataProviderService {
           createdAt: { $gte: new Date(request.lastUpdate) },
         };
       } else if (request.lastStation) {
-        const lastStation: StationData = await this.StationDataModel.findOne({
+        const lastStation: Station = await this.StationDataModel.findOne({
           _id: request.lastStation,
         });
 
@@ -70,7 +70,7 @@ export class DataProviderService {
         query = {};
       }
 
-      const data: StationData[] = await this.StationDataModel.find(query)
+      const data: Station[] = await this.StationDataModel.find(query)
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);

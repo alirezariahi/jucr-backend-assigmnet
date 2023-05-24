@@ -16,7 +16,7 @@ describe('StationController', () => {
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      expect(stationController.getHello()).toBe('Hello World!');
+      expect(stationController.status()).toBe('Hello World!');
     });
   });
 });
